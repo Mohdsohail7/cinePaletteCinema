@@ -1,0 +1,28 @@
+{
+  "name": "cinepalettecinema",
+  "version": "1.0.0",
+  "description": "movies based web application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mohdsohail7/cinePaletteCinema.git"
+  },
+  "author": "Mohd Sohail",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mohdsohail7/cinePaletteCinema/issues"
+  },
+  "homepage": "https://github.com/Mohdsohail7/cinePaletteCinema#readme",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "pg": "^8.13.1",
+    "sequelize": "^6.37.5",
+    "sequelize-cli": "^6.6.2",
+    "sqlite3": "^5.1.7"
+  }
+}
