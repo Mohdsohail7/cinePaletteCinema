@@ -6,6 +6,7 @@ const Watchlist = require("./models/watchlist");
 const Wishlist = require("./models/wishlist");
 const Review = require("./models/review");
 const CuratedList = require("./models/curatedList");
+const CuratedListItem = require("./models/curatedListItem");
 const app = express();
 
 app.use(express.json());
@@ -53,7 +54,7 @@ app.get('/seed_db', async (req, res) => {
               },
         ]);
         // Curated List Items
-        const curatedListItems = await curatedListItems.bulkCreate([
+        const curatedListItems = await CuratedListItem.bulkCreate([
             {
                 curatedListId: curatedLists[0].id,
                 movieId: moviesData[0].id,
@@ -70,6 +71,8 @@ app.get('/seed_db', async (req, res) => {
                 addedAt: new Date(),
               },
         ]);
+
+        return res.status(200).json({ message: 'Data saved in Database.'});
         
     } catch (error) {
         console.log('Error sending from database', error.message);
