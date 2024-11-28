@@ -78,6 +78,16 @@ app.get('/seed_db', async (req, res) => {
         console.log('Error sending from database', error.message);
     }
 })
+
+
+// routes
+const searchMovieRoute = require('./routes/searchMovie');
+
+app.use('/api', searchMovieRoute);
+
+
+
+
 app.get("/", (req, res) => {
     res.send("Welcome to cinePaletteCinema.");
 });
