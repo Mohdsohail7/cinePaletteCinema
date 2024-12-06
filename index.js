@@ -82,8 +82,12 @@ app.get('/seed_db', async (req, res) => {
 
 // routes
 const searchMovieRoute = require('./routes/searchMovie');
+const curatedListsRoute = require('./routes/curatedLists');
+const curatedListUpdateRoute = require('./routes/curatedLists');
 
 app.use('/api', searchMovieRoute);
+app.use('/api', curatedListsRoute);
+app.use('/api', curatedListUpdateRoute);
 
 
 
