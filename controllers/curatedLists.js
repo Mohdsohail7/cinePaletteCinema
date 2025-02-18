@@ -1,4 +1,6 @@
-const {CuratedList} = require("../models");
+const {CuratedList, Movie, CuratedListItem } = require("../models");
+const fetchMovieAndCastDetails = require("./fetchMovieAndCastDetails");
+const movieExistsInDB = require("./movieExistsInDB");
 
 
 const createSlug = (name) => {
@@ -79,4 +81,64 @@ async function updateCuratedList(req, res) {
 
 }
 
-module.exports = { createCuratedList, updateCuratedList };
+// movie add to curated list
+async function movieAddToCuratedList(req, res) {
+    const { movieId, curatedListId } = req.body;
+
+    // Input validation
+    if (!movieId || !curatedListId) {
+        return res.status(400).json({ message: "movieId and curatedListId are required."});
+    }
+
+    try {
+        // Check if the movie exists in the database
+        let movieExist = await movieExistsInDB(movieId);
+        let movieDetails;
+
+        if (!movieExist) {
+            // Fetch movie details from TMDB if the movie does not exist
+            movieDetails = await fetchMovieAndCastDetails(movieId);
+
+            if (!movieDetails) {
+                return res.status(404).json({ message: "Movie details could not be fetched." });
+            }
+
+            // Create a new movie entry in the database
+            movieExist = await Movie.create({
+                tmdbId: movieId,
+                title: movieDetails.title,
+                genre: movieDetails.genre,
+                releaseYear: movieDetails.releaseYear,
+                description: movieDetails.description,
+                rating: movieDetails.rating,
+                actors: movieDetails.actors
+            });
+        }
+
+        // Ensure that movieExist is an object
+        if (!movieExist || !movieExist.id) {
+            return res.status(400).json({ message: "Movie could not be retrieved or created." });
+        }
+
+        // Check if the movie already exists in the curated list
+        const movieInCuratedList = await CuratedListItem.findOne({ 
+            where: { movieId: movieExist.id, curatedListId } 
+        });
+
+        if (movieInCuratedList) {
+            return res.status(400).json({ message: "Movie already exists in the curated list." });
+        }
+
+        // Add the movie to the curated list
+        await CuratedListItem.create({ movieId: movieExist.id, curatedListId });
+
+        // Return a successful response
+        return res.status(201).json({ message: "Movie added to curated list successfully." });
+
+    } catch (error) {
+        return res.status(500).json({ message: "Failed to add movie to curated list.", error: error.message });
+    }
+}
+
+
+module.exports = { createCuratedList, updateCuratedList, movieAddToCuratedList };

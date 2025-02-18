@@ -22,11 +22,17 @@ app.use(express.json());
 const searchMovieRoute = require('./routes/searchMovie');
 const curatedListsRoute = require('./routes/curatedLists');
 const curatedListUpdateRoute = require('./routes/curatedLists');
+const movieAddToWatchlistRoute = require("./routes/watchlist");
+const movieAddToWishlistRoute = require("./routes/wishlist");
+const movieAddToCuratedListRoute = require("./routes/curatedLists");
 
 
 app.use('/api', searchMovieRoute);
 app.use('/api', curatedListsRoute);
 app.use('/api', curatedListUpdateRoute);
+app.use('/api', movieAddToWatchlistRoute);
+app.use('/api', movieAddToWishlistRoute);
+app.use('/api', movieAddToCuratedListRoute);
 
 
 
