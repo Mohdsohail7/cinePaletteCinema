@@ -1,4 +1,6 @@
+const { Op } = require("sequelize");
 const axiosInstance = require("../axios/axios");
+const { Movie } = require("../models");
 
 
 async function getActors(movieId) {
@@ -55,4 +57,31 @@ async function searchMovie(req, res) {
     }
 }
 
-module.exports = searchMovie;
+async function searchMovieByGenreAndActor(req, res) {
+    const { genre, actor } = req.query;
+    // validate input
+    if (!genre || !actor) {
+        return res.status(400).json({ message: "Genre and Actor are required."});
+    }
+
+    try {
+        const movies = await Movie.findAll({
+            where: {
+                genre: { [Op.like]: `%${genre}%` }, // i used Op because in genres and actors multiple values , separated
+                actors: { [Op.like]: `%${actor}%` } 
+            },
+            
+        });
+
+        if (movies.length === 0) {
+            return res.status(404).json({ message: "No movies found for this genre and actor." });
+        }
+
+        // return response
+        return res.status(200).json({ movies });
+    } catch (error) {
+        return res.status(500).json({ message: "Failed to fetch movies.", error: error.message});
+    }
+}
+
+module.exports = {searchMovie, searchMovieByGenreAndActor };

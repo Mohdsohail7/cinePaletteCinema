@@ -26,6 +26,7 @@ const movieAddToWatchlistRoute = require("./routes/watchlist");
 const movieAddToWishlistRoute = require("./routes/wishlist");
 const movieAddToCuratedListRoute = require("./routes/curatedLists");
 const addReviewRoute = require("./routes/review");
+const searchMovieByGenreAndActorRoute = require("./routes/searchMovie");
 
 
 app.use('/api', searchMovieRoute);
@@ -35,6 +36,7 @@ app.use('/api', movieAddToWatchlistRoute);
 app.use('/api', movieAddToWishlistRoute);
 app.use('/api', movieAddToCuratedListRoute);
 app.use('/api', addReviewRoute);
+app.use('/api', searchMovieByGenreAndActorRoute);
 
 
 
