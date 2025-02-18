@@ -1,4 +1,4 @@
-const CuratedList = require("../models/curatedList");
+const {CuratedList} = require("../models");
 
 
 const createSlug = (name) => {
@@ -44,7 +44,7 @@ async function createCuratedList(req, res){
             return res.status(400).json({ error: 'Curated List not created.'})
         }
 
-        return res.status(201).json({ message: 'Curated list created successfully.', createdCuratedList });
+        return res.status(201).json({ message: 'Curated list created successfully.' });
     } catch (error) {
         return res.status(500).json({ message: 'Server Internal Error.', error: error.message });
     }
@@ -72,7 +72,7 @@ async function updateCuratedList(req, res) {
 
         const updatedCuratedList = await findCuratedList.save();
 
-        return res.status(200).json({ message: 'Curated list updated successfully.', updatedCuratedList });
+        return res.status(200).json({ message: 'Curated list updated successfully.' });
     } catch (error) {
         return res.status(500).json({ message: 'Internal Server Error.', error: error.message });
     }
