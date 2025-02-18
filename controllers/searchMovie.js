@@ -4,7 +4,7 @@ const axiosInstance = require("../axios/axios");
 async function getActors(movieId) {
     try {
         const response = await axiosInstance.get(`/movie/${movieId}/credits`, {
-            params: { api_key: process.env.TMDB_API_KEY } // ✅ Pass API key
+            params: { api_key: process.env.TMDB_API_KEY } 
         });
         // console.log("Actors API Response:", response.data);
         if (!response || !response.data) {
