@@ -3,7 +3,9 @@ const axiosInstance = require("../axios/axios");
 
 async function getActors(movieId) {
     try {
-        const response = await axiosInstance.get(`/movie/${movieId}/credits`);
+        const response = await axiosInstance.get(`/movie/${movieId}/credits`, {
+            params: { api_key: process.env.TMDB_API_KEY } // ✅ Pass API key
+        });
         // console.log("Actors API Response:", response.data);
         if (!response || !response.data) {
             return res.status(404).json({ error: "No actors found for this movie."});
@@ -22,7 +24,12 @@ async function searchMovie(req, res) {
             return res.status(400).json({ error: 'query is required.'});
         }
 
-        const response = await axiosInstance.get(`/search/movie?query=${query}`);
+        const response = await axiosInstance.get("/search/movie", {
+            params: {
+                query: query,
+                api_key: process.env.TMDB_API_KEY  // ✅ Pass API key
+            }
+        });
         // console.log("TMDB Response:", response.data);
 
         if (!response || !response.data || response.data.results.length === 0) {
