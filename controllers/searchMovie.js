@@ -11,7 +11,7 @@ async function getActors(movieId) {
         const actors = response.data.cast.filter((person) => person.known_for_department === 'Acting').map((actor) => actor.name);
         return actors.join(', ');
     } catch (error) {
-        return res.status(500).json({ message: `Error fetching actors for movie ID ${movieId}:`, error: error.message });
+        console.error(`Error fetching actors for movie ID ${movieId}:`, error.message);
     }
 }
 async function searchMovie(req, res) {

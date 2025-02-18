@@ -1,18 +1,30 @@
-const { sequelize, DataTypes } = require('../config/database');
-
-const CuratedListItem = sequelize.define('CuratedListItem', {
-    curatedListId: {
-      type: DataTypes.INTEGER,
-      references: { model: 'CuratedLists', key: 'id' }
+module.exports = (sequelize, DataTypes) => {
+  const CuratedListItem = sequelize.define(
+    'CuratedListItem',
+    {
+      curatedListId: {
+        type: DataTypes.INTEGER,
+        references: { model: 'curatedList', key: 'id' },
+      },
+      movieId: {
+        type: DataTypes.INTEGER,
+        references: { model: 'movie', key: 'id' },
+      },
+      addedAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
     },
-    movieId: {
-      type: DataTypes.INTEGER,
-      references: { model: 'Movies', key: 'id' } 
-    },
-    addedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
+    {
+      timestamps: true,
     }
-  });
-  
-  module.exports = CuratedListItem;
+  );
+
+  // Associations
+  CuratedListItem.associate = (models) => {
+    CuratedListItem.belongsTo(models.CuratedList, { foreignKey: 'curatedListId' });
+    CuratedListItem.belongsTo(models.Movie, { foreignKey: 'movieId' });
+  };
+
+  return CuratedListItem;
+};

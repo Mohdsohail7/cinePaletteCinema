@@ -1,14 +1,25 @@
-const { sequelize, DataTypes } = require('../config/database');
-
-const Wishlist = sequelize.define('Wishlist', {
-    movieId: {
-      type: DataTypes.INTEGER,
-      references: { model: 'Movies', key: 'id' }
+module.exports = (sequelize, DataTypes) => {
+  const Wishlist = sequelize.define(
+    'Wishlist',
+    {
+      movieId: {
+        type: DataTypes.INTEGER,
+        references: { model: 'movie', key: 'id' },
+      },
+      addedAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
     },
-    addedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
+    {
+      timestamps: true,
     }
-  });
-  
-  module.exports = Wishlist;
+  );
+
+  // Associations
+  Wishlist.associate = (models) => {
+    Wishlist.belongsTo(models.Movie, { foreignKey: 'movieId' });
+  };
+
+  return Wishlist;
+};

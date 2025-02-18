@@ -1,16 +1,31 @@
-const { sequelize, DataTypes } = require('../config/database');
-
-const Review = sequelize.define('Review', {
-    movieId: {
-      type: DataTypes.INTEGER,
-      references: { model: 'Movies', key: 'id' }
+module.exports = (sequelize, DataTypes) => {
+  const Review = sequelize.define(
+    'Review',
+    {
+      movieId: {
+        type: DataTypes.INTEGER,
+        references: { model: 'movie', key: 'id' },
+      },
+      rating: {
+        type: DataTypes.FLOAT,
+      },
+      reviewText: {
+        type: DataTypes.STRING,
+      },
+      addedAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
     },
-    rating: DataTypes.FLOAT, // User rating
-    reviewText: DataTypes.STRING, // User review
-    addedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
+    {
+      timestamps: true,
     }
-  });
-  
-  module.exports = Review;
+  );
+
+  // Associations
+  Review.associate = (models) => {
+    Review.belongsTo(models.Movie, { foreignKey: 'movieId' });
+  };
+
+  return Review;
+};
