@@ -28,6 +28,7 @@ const movieAddToCuratedListRoute = require("./routes/curatedLists");
 const addReviewRoute = require("./routes/review");
 const searchMovieByGenreAndActorRoute = require("./routes/searchMovie");
 const sortMoviesRoute = require("./routes/sortMovie");
+const topFiveMovieRatingWithReviewDetailsRoute = require("./routes/sortMovie");
 
 
 app.use('/api', searchMovieRoute);
@@ -39,6 +40,7 @@ app.use('/api', movieAddToCuratedListRoute);
 app.use('/api', addReviewRoute);
 app.use('/api', searchMovieByGenreAndActorRoute);
 app.use('/api', sortMoviesRoute);
+app.use('/api', topFiveMovieRatingWithReviewDetailsRoute);
 
 
 

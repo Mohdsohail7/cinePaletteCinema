@@ -1,4 +1,4 @@
-const { Watchlist, Wishlist, CuratedList, Movie } = require("../models");
+const { Watchlist, Wishlist, CuratedList, Movie, Review } = require("../models");
 
 async function sortMovies(req, res) {
     const { list, sortBy, order } = req.query;
@@ -70,4 +70,47 @@ async function sortMovies(req, res) {
     }
 }
 
-module.exports = sortMovies;
+async function topFiveMovieRatingWithDetailsReview(req, res) {
+    try {
+        // Fetch top 5 highest-rated movies with their reviews
+        const topFiveMovies = await Movie.findAll({
+            order: [["rating", "DESC"]], // fetching highest rating movies
+            limit: 5, // only top five movies
+            include: [{
+                model: Review,
+                attributes: ["reviewText"] // fetched only review text
+            }]
+        });
+
+        // If no movies are found
+        if (!topFiveMovies || topFiveMovies.length === 0) {
+            return res.status(404).json({ message: "No top-rated movies found." });
+        }
+
+        // Process movies and calculate word count
+        const formattedMovies = topFiveMovies.map(movie => {
+            // Get the first review's text if available
+            const reviewText = movie.Reviews && movie.Reviews.length > 0 ? movie.Reviews[0].reviewText : "";
+            
+            // Count words properly
+            const wordCount = reviewText.trim() ? reviewText.trim().split(/\s+/).length : 0;
+
+            return {
+                title: movie.title,
+                rating: movie.rating,
+                review: {
+                    text: reviewText,
+                    wordCount: wordCount
+                }
+            };
+        });
+
+        return res.status(200).json({ movies: formattedMovies });
+
+    } catch (error) {
+        console.error("Error fetching top 5 movies:", error);
+        return res.status(500).json({ message: "Failed to fetch top five movies.", error: error.message });
+    }
+}
+
+module.exports = { sortMovies, topFiveMovieRatingWithDetailsReview };
