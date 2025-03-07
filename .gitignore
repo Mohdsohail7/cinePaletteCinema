@@ -4,8 +4,3 @@ node_modules/
 # Ignore environment files
 .env
 
-# Ignore image files
-*.png
-*.jpeg
-*.jpg
-*.gif
