@@ -35,4 +35,4 @@ async function addReviewAndRating(req, res) {
     }
 }
 
-module.exports = addReviewAndRating;
+module.exports = {addReviewAndRating};

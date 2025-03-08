@@ -87,6 +87,9 @@ Once the server is running, the app will be available at http://localhost:3000.
 ![movie](screenshots/26.PNG)
 ![movie](screenshots/27.PNG)
 ![movie](screenshots/28.PNG)
+![movie](screenshots/29.PNG)
+![movie](screenshots/30.PNG)
+![movie](screenshots/31.PNG)
 
 🤝 Contributing
 If you want to contribute or add new features, feel free to submit a pull request! 😊

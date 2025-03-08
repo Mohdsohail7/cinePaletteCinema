@@ -1,5 +1,5 @@
 const express = require("express");
-const movieAddToWatchlist = require("../controllers/watchlist");
+const {movieAddToWatchlist} = require("../controllers/watchlist");
 const router = express.Router();
 
 // route for movie add to watchlist
