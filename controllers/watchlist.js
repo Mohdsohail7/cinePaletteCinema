@@ -41,4 +41,4 @@ async function movieAddToWatchlist (req, res) {
     }
 }
 
-module.exports = movieAddToWatchlist;
+module.exports = {movieAddToWatchlist};

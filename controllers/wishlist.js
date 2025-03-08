@@ -39,4 +39,4 @@ async function movieAddToWishlist(req, res) {
     }
 
 }
-module.exports = movieAddToWishlist;
+module.exports = {movieAddToWishlist};
